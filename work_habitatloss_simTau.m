@@ -2,18 +2,20 @@
 clear
 clc
 %%  landscape parameters
-k = 10; % local community size
+% k = 10; % local community size
+k = 5; % local community size
+XY = landscape256;
 
 %% Species parameters    
     sB = 0.8; % sA =1; sB is the relative body size
-    EA = 0.03;  EB = EA; % emigration rate   
-    cA = 0.3;    cB = cA/sB^2; % dispersal kernel, small number means long distance
+    EA = 0.2;  EB = EA; % emigration rate   
+    cA = 1;    cB = cA/sB^2; % dispersal kernel, small number means long distance
     bBA = 1/sB; % increase pressure on the small species
     bAB = 1*sB; % reduced pressur on the big species
 
  %% Simulation parameters
     tlim = 300;
-    it = 1;
+    it = 100;
     tau =0.02;
     ts = 0:tau:tlim;
 
@@ -23,25 +25,22 @@ destiny =zeros(it, 2);
 tic
 
 
-for l = 0:5
-    loss = l * 8
-    P = 64 - loss;
-for i = 1:it
+for l = 0
+        loss = l * 8;
+        P = 64 - loss;
+        parfor i = 1:it
     % random habitat loss
-        ind = sort(randperm(64, 64-loss));
+        ind = sort(randperm(64, 64-loss)); % index of remaining patches
             XY = landscape64;
-        XY = XY(ind,:);
+            XY = XY(ind,:);
         distance = squareform( pdist(XY)); 
         n0 = repmat(round([k/2  k/sB/2]), P, 1); 
     % Simulation
-        % presimulation
         [x, note] = LVtauleap(n0, tlim,tau, distance, k , sB, EA, EB, cA, cB, bAB, bBA);
-
     % record the destiny    
         destiny(i,:) = sum(x( :, :, end),1);
-end
-     
-    destinycode(l+1,:) =[sum(all(destiny > 0, 2)), ...
+        end     
+        destinycode(l+1,:) =[sum(all(destiny > 0, 2)), ...
                     sum( all([destiny(:,1) > 0   destiny(:,2) == 0], 2)),...
                     sum( all([destiny(:,2) > 0   destiny(:,1) == 0], 2)),...
                     sum(all(destiny == 0, 2))] 

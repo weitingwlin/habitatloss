@@ -2,20 +2,20 @@
 clear
 clc
 %%  landscape parameters
-k = 10; % local community size
-XY = landscape64;
+k = 5; % local community size
+XY = landscape256;
 P = length(XY(:,1)); % number of patch
     distance = squareform( pdist(XY)); % spatial implicit model, c is a dummy
 %% Species parameters    
 sB = 0.8; % sA =1; sB is the relative body size
-EA = 0.03;  EB = 0.03; % emigration rate   
+EA = 0.1;  EB = EA; % emigration rate   
 cA = 0.3;    cB = cA/sB; % dispersal kernel, small number means long distance
-bBA = 1/sB^2; %
+bBA = 1/sB; %
 bAB = 1*sB;
  %% Simulation parameters
     tlim = 300;
     it = 1;
-    tau =0.02; % with tau = 0.01 ~8 seconds, no fix negative values
+    tau =0.05; % with tau = 0.01 ~8 seconds, no fix negative values
     ts = 0:tau:tlim;
    % ntrace = 10;
 %% simulated habitat loss
