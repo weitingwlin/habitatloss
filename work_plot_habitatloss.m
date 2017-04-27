@@ -1,5 +1,5 @@
-for l = 0:5
-    loss = l * 8
+for l = 0:6
+    loss = l * 32
     P = 64 - loss;
     % random habitat loss
         ind = sort(randperm(64, 64-loss));

@@ -1,8 +1,13 @@
+
 %% plot landscape
  myplot(XY(:,1), XY(:,2));
  for p = 1 : length( XY(:, 1) )
      mytext(XY(p,1), XY(p,2), num2str(p), 12,1);
  end
+%% gray
+ myplot(XY(:,1), XY(:,2), 'S', 7);
+ box off
+ axis off
  
  %%
  X = 1:32;Y=zeros(1,32);

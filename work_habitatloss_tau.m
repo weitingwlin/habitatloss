@@ -7,11 +7,14 @@ XY = landscape256;
 P = length(XY(:,1)); % number of patch
     distance = squareform( pdist(XY)); % spatial implicit model, c is a dummy
 %% Species parameters    
-sB = 0.8; % sA =1; sB is the relative body size
-EA = 0.1;  EB = EA; % emigration rate   
-cA = 0.3;    cB = cA/sB; % dispersal kernel, small number means long distance
-bBA = 1/sB; %
-bAB = 1*sB;
+ sB = 0.8; % sA =1; sB is the relative body size
+    EA = 0.3; EB = EA; % emigration rate   
+    cA = 1;    cB = cA/sB^2; % dispersal kernel, small number means long distance
+ tf1 = 0.5; % trade-off 1
+    tf2 = 1;
+    bBA = 1/sB^tf1; % increase pressure on the small species
+    bAB = 1*sB^tf2; % reduced pressur on the big species
+
  %% Simulation parameters
     tlim = 300;
     it = 1;
@@ -21,8 +24,8 @@ bAB = 1*sB;
 %% simulated habitat loss
 % rng(2)
 loss = 0;
-P = 64 - loss;
-ind = sort(randperm(64, 64-loss));
+P = 256 - loss;
+ind = sort(randperm(256, P));
 XY = XY(ind,:);
   distance = squareform( pdist(XY)); 
 %   myplot(XY(:,1), XY(:,2), 'S', 7.5, [], 7); axis([-1 13 -1 13])
@@ -75,7 +78,7 @@ close(v)
 figure
 movie(M)
 %%
-v = VideoWriter('test.avi');
+% v = VideoWriter('test.avi');
 
 %%
 figure

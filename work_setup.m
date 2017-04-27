@@ -8,15 +8,13 @@
 %%% set working directory and path
 % mac
 if strncmp(strout, 'weitingdeMacBook-Air.local',5)
-    cd '/Users/weitinglin/Dropbox/Other_projects/stochastic_habitatloss'
-    
+    cd '/Users/weitinglin/Dropbox/PhD_projects/stochastic_habitatloss'
     addpath '/Users/weitinglin/Dropbox/DataCoding/utility_wtl/mfiles'
 end
 
 % PC
 if strncmp(strout,'wlin_pc',5)
- cd 'C:\Users\Wei-Ting\Dropbox\Other_projects\stochastic_habitatloss'
-    addpath 'C:\Users\Wei-Ting\Dropbox\DataCoding\utility_wtl_ecology\mfiles'
+ cd 'C:\Users\Wei-Ting\Dropbox\PhD_projects\stochastic_habitatloss'
  addpath 'C:\Users\Wei-Ting\Dropbox\DataCoding\utility_wtl\mfiles'
 end
 
