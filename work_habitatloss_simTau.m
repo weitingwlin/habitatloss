@@ -9,16 +9,16 @@ XY = landscape256;
 
 %% Species parameters    
     sB = 0.8; % sA =1; sB is the relative body size
-    EA = 0.3; EB = EA; % emigration rate   
-    cA = 1;    cB = cA/sB^2; % dispersal kernel, small number means long distance
+    EA = 0.2; EB = EA; % emigration rate   
+    cA = 0.3;    cB = cA/sB^2; % dispersal kernel, small number means long distance
     tf1 = 0.5;
-    tf2 = 1;
+    tf2 =1;
     bBA = 1/sB^tf1; % increase pressure on the small species
     bAB = 1*sB^tf2; % reduced pressur on the big species
 
  %% Simulation parameters
     tlim = 300;
-    it = 100;
+    it = 300;
     tau =0.05;
     ts = 0:tau:tlim;
 %%        Ea    c      bBA = 1/sB;
@@ -27,13 +27,8 @@ XY = landscape256;
 rng(1)
 destiny =zeros(it, 2);
 tic
-%for s = 1:9
-%    EA = simsEC(s, 1)
- %  EB = EA;
- %   cA = simsEC(s,2)
- %   bBA = simsEC(s,3)
-    
-for l = 0%: 6
+   
+for l = 0: 6
         loss = l * 32;
         P = 256 - loss;
         parfor i = 1:it
@@ -47,11 +42,13 @@ for l = 0%: 6
         [x, note] = LVtauleap(n0, tlim,tau, distance, k , sB, EA, EB, cA, cB, bAB, bBA);
     % record the destiny    
         destiny(i,:) = sum(x( :, :, end),1);
+         disp(['Loss: ', num2str(l*32), '  it: ' , num2str(i)]);
         end     
         destinycode(l+1,:) =[sum(all(destiny > 0, 2)), ...
                     sum( all([destiny(:,1) > 0   destiny(:,2) == 0], 2)),...
                     sum( all([destiny(:,2) > 0   destiny(:,1) == 0], 2)),...
-                    sum(all(destiny == 0, 2))] 
+                    sum(all(destiny == 0, 2))] ;
+         
 end
 
  toc
@@ -77,6 +74,6 @@ mysubplot(5, 1, [1:4])
     axis([0 32*6 0 it])
 mysubplot(5, 1, 5)
     axis([0 32*6 0 it]); box off; axis off
-    mytext(0, 10, str1, 8, 1)
+  text(0, 10, str1)
   %  mytext(0, 25, str2, 8, 1)   
    %mytext(0, 0, str3, 8, 1)
